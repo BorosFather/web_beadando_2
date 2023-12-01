@@ -1,1 +1,165 @@
-<p>emp works!</p>
+<div class="container p-3 mb-2 ">
+
+
+   <div class="row bg-dark mt-3">
+    <h1 class="text-white text-center">
+      Employees
+    </h1>
+  </div>
+  <div class="row bg-dark mt-2">
+    <!-- <button class="text-white p-2 col-1 bg-info mx-3 rounded border-info " data-bs-toggle="modal" data-bs-target="#addModal">
+      Add 
+    </button> -->
+    <button class="text-white p-2 col-1 bg-info mx-3 rounded border-info " data-bs-toggle="modal" data-bs-target="#addModal" (click)="addEmployee()">
+      Add 
+    </button>
+    <select class="form-select" aria-label="Dolgozók per oldal" [(ngModel)]="employeesPerPage" (change)="nextPage()">
+      <option *ngFor="let pageSize of pageSizes" [value]="pageSize">{{pageSize}}</option>
+    </select>
+  
+    <div class="d-flex align-items-center">
+      <button class="text-white p-2 col-1 bg-success mx-3 rounded border-success mt-2" [disabled]="currentPage === 1" (click)="changePage(-1)">Back</button>
+      <button class="text-white p-2 col-1 bg-success mx-3 rounded border-success  mt-2" [disabled]="currentPage === totalPages" (click)="changePage(1)">Next</button>
+    </div>
+
+    <h1 style="--bs-bg-opacity: .5;" class="bg-success display-6 text-center text-white my-3 py-1 rounded" *ngIf="message">{{ message }}</h1>
+  
+    <h1 style="--bs-bg-opacity: .5;" class="bg-danger display-6 text-center text-white my-3 py-1 rounded"  *ngIf="errmess?.name">{{errmess.name}}</h1>
+    <h1 style="--bs-bg-opacity: .5;" class="bg-danger display-6 text-center text-white my-3 py-1 rounded"  *ngIf="errmess?.city">{{errmess.city}}</h1>
+    <h1 style="--bs-bg-opacity: .5;" class="bg-danger display-6 text-center text-white my-3 py-1 rounded"  *ngIf="errmess?.salary">{{errmess.salary}}</h1>
+    
+     
+  </div>
+  <table class="table table-striped table-dark mt-2">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Salary</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="col" *ngFor="let emp of emps">
+          <th>{{emp.id}}</th>
+          <td>{{emp.name}}</td>
+          <td>{{emp.city}}</td>
+          <td>{{emp.salary}}</td>
+          <td>
+            <div class="row mx-2">
+        <!-- <button class="text-dark bg-warning p-2 rounded border-warning" (click)="editEmp(emp)" data-bs-toggle="modal" data-bs-target="#modifyModal" > -->
+              <button class="text-dark bg-warning p-2 rounded border-warning" (click)="editEmployee(emp)" data-bs-toggle="modal" data-bs-target="#modifyModal">
+                Edit 
+            </button>
+            </div>
+          </td>
+          <td>
+            <div class="row mx-2">
+              <button class="text-white bg-danger p-2 rounded border-danger" (click)="deleteEmp(emp.id)">
+                Delete 
+              </button>
+            </div>
+          </td>
+         
+        </tr>
+      </tbody>
+    </table>
+  
+     <!-- add Modal -->
+  
+     <!-- <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+  
+           
+            <form [formGroup]="empForm">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name"
+                placeholder="expl:  B. Ödön" formControlName="name">              
+              </div>
+              <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city"
+                placeholder="expl:  Budapest" formControlName="city">              
+              </div>
+              <div class="mb-3">
+                <label for="salary" class="form-label">Salary</label>
+                <input type="text" class="form-control" id="salary"
+                placeholder="expl:   455" formControlName="salary">              
+              </div>
+            </form>
+  
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" 
+            data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="onClick()">Save</button>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  
+      <!-- modify Modal -->
+  
+      <!-- <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+        <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Dolgozo módosítása</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+    
+             
+              <form [formGroup]="editForm">
+                <div class="mb-3">
+                  <label for="id" class="form-label">Id</label>
+                  <input type="text" class="form-control" id="id"
+                  formControlName="id" readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name"
+                  formControlName="name">              
+                </div>
+                <div class="mb-3">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city"
+                  formControlName="city">              
+                </div>
+                <div class="mb-3">
+                  <label for="salary" class="form-label">Salary</label>
+                  <input type="text" class="form-control" id="salary"
+                  formControlName="salary">              
+                </div>
+              </form>
+    
+    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" 
+              data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"
+              data-bs-dismiss="modal"
+              (click)="updateEmployee()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+    <footer class="justify-content-center">&copy; Borosfather</footer>
+  </div>
