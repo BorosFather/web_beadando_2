@@ -28,6 +28,8 @@ export class EmpComponent {
       name: ['', Validators.required],
       city: [''],
       salary:[''],
+      position_id:[''],
+      department_id:[''],
     });
 
     this.editForm = this.formBuilder.group({
@@ -35,6 +37,8 @@ export class EmpComponent {
       name: ['', Validators.required],
       city: [''],
       salary:[''],
+      position_id:[''],
+      department_id:[''],
 
     });
     this.getEmployees();
@@ -78,10 +82,10 @@ export class EmpComponent {
     this.emps = this.emps.slice(startIndex, endIndex);
   }
 
-  changePage(delta: number) {
-    this.currentPage += delta;
-    this.getEmployees();
-  }
+  // changePage(delta: number) {
+  //   this.currentPage += delta;
+  //   this.getEmployees();
+  // }
   
   onClick() {
     if (this.checkInput()){
@@ -93,7 +97,9 @@ export class EmpComponent {
     let data = {
       name: this.empForm.value.name,
       city: this.empForm.value.city,
-      salary: this.empForm.value.salary
+      salary: this.empForm.value.salary,
+      position_id: this.empForm.value.position_id,
+      department_id: this.empForm.value.department_id 
     };
 
     this.clearField();
@@ -113,34 +119,40 @@ export class EmpComponent {
     });
   }
 
-  checkInput() {
-    const nameInput = (<HTMLInputElement>document.getElementById('name')).value;
-    const cityInput = (<HTMLInputElement>document.getElementById('city')).value;
-    const salaryInput = parseInt((<HTMLInputElement>document.getElementById('salary')).value);
 
+  checkInput(): boolean {
+    const nameInput = this.empForm.value.name;
+    const cityInput = this.empForm.value.city;
+    const salaryInput = parseInt(this.empForm.value.salary);
+  
     let errorMessage = "";
-
+  
     if (nameInput.trim().length < 5) {
       errorMessage += "Name should be at least 5 characters long!\n";
     }
-
+  
     if (!/^[a-zA-Z\s]+$/.test(nameInput)) {
-      errorMessage += "Name should be at least 5 characters long!\n";
+      errorMessage += "Name should only contain letters and spaces!\n";
     }
-
-    if (cityInput.trim() === "") {
-      errorMessage += "Name should be at least 5 characters long!\n";
+  
+    if (cityInput.trim().length === 0) {
+      errorMessage += "City is required!\n";
     }
-
+  
     if (isNaN(salaryInput) || salaryInput <= 0) {
-      errorMessage += "Name should be at least 5 characters long!\n";
+      errorMessage += "Salary should be a positive number!\n";
     }
-
+  
     if (errorMessage !== "") {
       alert(errorMessage);
       return false;
     }
     return true;
+  }
+  
+  changePage(delta: number) {
+    this.currentPage += delta;
+    this.getEmployees();
   }
 
   clearField() {
@@ -148,6 +160,8 @@ export class EmpComponent {
         name: '', 
         city: '',
         salary: '',
+        position_id:'',
+        department_id:'',
     });
   }
 
@@ -173,6 +187,8 @@ export class EmpComponent {
     this.editForm.patchValue({name: emp.name});
     this.editForm.patchValue({city: emp.city});
     this.editForm.patchValue({salary: emp.salary});
+    this.editForm.patchValue({position_id: emp.position_id});
+    this.editForm.patchValue({department_id: emp.department_id});
 
     console.log("megy");
   }
@@ -183,6 +199,8 @@ export class EmpComponent {
       name: this.editForm.value.name,
       city: this.editForm.value.city,
       salary: this.editForm.value.salary,
+      position_id: this.editForm.value.position_id,
+      department_id: this.editForm.value.department_id
     };
 
     this.api.updateEmployee(data).subscribe({
@@ -201,5 +219,7 @@ export class EmpComponent {
     });
 
   }
+
+  
 }
 

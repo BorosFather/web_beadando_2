@@ -19,7 +19,7 @@ export class ApiService {
 
   addEmployee(data: any) {
     let endpoint = 'store';
-    let url = this.apihost + endpoint;
+    let url = this.apihost +  endpoint;
   
     return this.http.post<any>(url, data);
   }
@@ -37,4 +37,5 @@ export class ApiService {
   
     return this.http.put(url, emp);
   }
+
 }

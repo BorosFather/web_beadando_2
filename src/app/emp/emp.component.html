@@ -37,6 +37,8 @@
           <th scope="col">Name</th>
           <th scope="col">City</th>
           <th scope="col">Salary</th>
+          <th scope="col">Position</th>
+          <th scope="col">Department</th>
           
         </tr>
       </thead>
@@ -46,6 +48,8 @@
           <td>{{emp.name}}</td>
           <td>{{emp.city}}</td>
           <td>{{emp.salary}}</td>
+          <td>{{emp.position_id}}</td>
+          <td>{{emp.department_id}}</td>
           <td>
             <div class="row mx-2">
         <!-- <button class="text-dark bg-warning p-2 rounded border-warning" (click)="editEmp(emp)" data-bs-toggle="modal" data-bs-target="#modifyModal" > -->
@@ -95,6 +99,16 @@
                 <input type="text" class="form-control" id="salary"
                 placeholder="expl:   455" formControlName="salary">              
               </div>
+              <div class="mb-3">
+                <label for="position_id" class="form-label">Position</label>
+                <input type="text" class="form-control" id="position_id"
+                placeholder="expl:   Slave" formControlName="position_id">              
+              </div>
+              <div class="mb-3">
+                <label for="department_id" class="form-label">Departnemt</label>
+                <input type="text" class="form-control" id="department_id"
+                placeholder="expl:  Programer" formControlName="department_id">              
+              </div>
             </form>
   
   
@@ -136,14 +150,19 @@
                   formControlName="name">              
                 </div>
                 <div class="mb-3">
-                  <label for="city" class="form-label">City</label>
-                  <input type="text" class="form-control" id="city"
-                  formControlName="city">              
-                </div>
-                <div class="mb-3">
-                  <label for="salary" class="form-label">Salary</label>
+                  <label for="salary" class="form-label">Salart</label>
                   <input type="text" class="form-control" id="salary"
                   formControlName="salary">              
+                </div>
+                <div class="mb-3">
+                  <label for="position_id" class="form-label">Position</label>
+                  <input type="text" class="form-control" id="position_id"
+                  formControlName="position_id">              
+                </div>
+                <div class="mb-3">
+                  <label for="department_id" class="form-label">Departnemt</label>
+                  <input type="text" class="form-control" id="department_id"
+                  formControlName="department_id">              
                 </div>
               </form>
     
