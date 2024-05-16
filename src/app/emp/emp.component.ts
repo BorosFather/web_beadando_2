@@ -20,8 +20,10 @@ export class EmpComponent {
   pageSizes: number[] = [10, 20, 30];
   totalPages: number = 0;
   
-  constructor( private api: ApiService, private formBuilder: FormBuilder,
-     private ngZone: NgZone,) { }
+  constructor( 
+    private api: ApiService,
+    private formBuilder: FormBuilder,
+    private ngZone: NgZone,) { }
 
   ngOnInit(): void {
     this.empForm = this.formBuilder.group({
@@ -113,7 +115,8 @@ export class EmpComponent {
       
       },
       error: (err:any) => {       
-        console.error('Error adding employee:', err);
+        console.error('Hiba a dolgozó hozzáadása során:', err);
+        this.errmess = err.error.message;
         this.showMessage();
       }
     });
