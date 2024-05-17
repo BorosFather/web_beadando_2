@@ -8,6 +8,7 @@ export class ApiService {
 
   apihost = 'http://localhost:8000/api/';
 
+  
   constructor(private http : HttpClient) { }
 
   getEmployees() {
@@ -18,10 +19,21 @@ export class ApiService {
   }
 
   addEmployee(data: any) {
+
     let endpoint = 'store';
     let url = this.apihost +  endpoint;
-  
-    return this.http.post<any>(url, data);
+    
+    console.log(data);
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'applicaton/json',
+      'Authorization': 'Bearer '
+    });
+
+    let httpOption = {
+      headers: headers
+    };
+    return this.http.post<any>(url, data, httpOption);
   }
 
   deleteEmployee(id: number) {

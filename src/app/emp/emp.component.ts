@@ -115,7 +115,7 @@ export class EmpComponent {
       
       },
       error: (err:any) => {       
-        console.error('Hiba a dolgozó hozzáadása során:', err);
+       // console.error('Hiba a dolgozó hozzáadása során:', err);
         this.errmess = err.error.message;
         this.showMessage();
       }
